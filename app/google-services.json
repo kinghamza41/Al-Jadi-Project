@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "493562753915",
+    "project_id": "al-jadi-project",
+    "storage_bucket": "al-jadi-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493562753915:android:f5e7f12187eecc9f4143de",
+        "android_client_info": {
+          "package_name": "com.example.aljadiproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "493562753915-4vt093hglih359jt01uqd3j40lhsfd4d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOGhUXrm0I10itJVoRZ1b7dt5c35TG0N0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "493562753915-4vt093hglih359jt01uqd3j40lhsfd4d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
