@@ -3,6 +3,7 @@ package com.example.aljadiproject;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         savebtn = findViewById(R.id.savebtn);
         checkUserExistence();
         savebtn.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View v) {
                 processLogin();
