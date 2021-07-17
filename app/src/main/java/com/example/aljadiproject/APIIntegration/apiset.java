@@ -1,4 +1,6 @@
-package com.example.aljadiproject;
+package com.example.aljadiproject.APIIntegration;
+
+import com.example.aljadiproject.Models.ResponseModel;
 
 import retrofit2.Call;
 import retrofit2.http.Field;

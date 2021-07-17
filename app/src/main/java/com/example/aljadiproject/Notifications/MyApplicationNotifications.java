@@ -1,4 +1,4 @@
-package com.example.aljadiproject;
+package com.example.aljadiproject.Notifications;
 
 import android.app.Application;
 

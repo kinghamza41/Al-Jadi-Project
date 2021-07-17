@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/mainbackground"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="#f1e2ec"
     tools:context=".MainActivity">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="140dp"
         android:layout_height="140dp"
-        app:srcCompat="@drawable/logo2"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/logo2" />
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -51,13 +51,13 @@
         android:textSize="20sp" />
 
     <TextView
+        android:id="@+id/tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:textSize="20dp"
-        android:textStyle="bold"
-        android:id="@+id/tv"/>
+        android:textStyle="bold" />
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

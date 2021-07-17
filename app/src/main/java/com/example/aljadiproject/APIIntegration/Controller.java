@@ -1,4 +1,4 @@
-package com.example.aljadiproject;
+package com.example.aljadiproject.APIIntegration;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -25,7 +25,7 @@ public class Controller {
         return clientObj;
     }
 
-    apiset getapi() {
+    public apiset getapi() {
         return retrofit.create(apiset.class);
     }
 

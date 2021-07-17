@@ -1,4 +1,4 @@
-package com.example.aljadiproject;
+package com.example.aljadiproject.Models;
 
 public class ResponseModel {
     String message;
