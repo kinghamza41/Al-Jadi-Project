@@ -1,9 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".PresentActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_bg_style2"
+        android:gravity="center"
+        android:padding="4dp"
+        android:text="@string/present_employee"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:stretchColumns="1,2,3,4,5">
+
+            <TableRow>
+
+                <TextView
+                    android:layout_column="1"
+                    android:layout_gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/id"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_column="1"
+                    android:layout_gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/name"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+
+                    android:layout_column="1"
+                    android:layout_gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/company"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+
+                    android:layout_column="1"
+                    android:layout_gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/start_time"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+
+                    android:layout_column="1"
+                    android:layout_gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/end_time"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </TableRow>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/presentrecview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+        </TableLayout>
+
+
+    </HorizontalScrollView>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

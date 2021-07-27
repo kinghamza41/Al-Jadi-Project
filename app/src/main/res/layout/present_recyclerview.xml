@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="1,2,3,4,5"
+        >
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/id"
+                    android:layout_column="1"
+                   android:layout_gravity="start"
+                    android:inputType="number"
+                    android:text="1"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    />
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_column="1"
+                    android:layout_gravity="start"
+                    android:text="Ali"
+                    android:inputType="text"
+                    android:textSize="16sp"
+                    android:padding="8dp"/>
+
+                <TextView
+                    android:id="@+id/company"
+                    android:layout_column="1"
+                    android:layout_gravity="start"
+                    android:text="Al Jadi"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    android:inputType="text"/>
+
+                <TextView
+                    android:id="@+id/startTime"
+                    android:layout_column="1"
+                    android:layout_gravity="start"
+                    android:inputType="time"
+                    android:text="10:00AM"
+                    android:textSize="16sp"
+                    android:padding="8dp"/>
+
+                <TextView
+                    android:id="@+id/endTime"
+                    android:layout_column="1"
+                    android:layout_gravity="start"
+                    android:inputType="time"
+                    android:text="12:00PM"
+                    android:textSize="16sp"
+                    android:padding="8dp"/>
+            </TableRow>
+        </TableLayout>
+    </HorizontalScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -6,4 +6,10 @@
     <string name="absent">Absent</string>
     <string name="pending">Pending</string>
     <string name="leaves_today">Leaves Today</string>
+    <string name="id">ID</string>
+    <string name="name">Name</string>
+    <string name="company">Company</string>
+    <string name="start_time">Start Time</string>
+    <string name="end_time">End Time</string>
+    <string name="present_employee">Present Employee</string>
 </resources>

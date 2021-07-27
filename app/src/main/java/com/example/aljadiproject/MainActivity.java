@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     AppCompatButton savebtn;
     TextView tv;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         t1 = findViewById(R.id.t1);
         t2 = findViewById(R.id.t2);
         tv = findViewById(R.id.tv);
+
         savebtn = findViewById(R.id.savebtn);
         checkUserExistence();
         savebtn.setOnClickListener(new View.OnClickListener() {
@@ -42,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+
 
     public void processLogin() {
         String email = t1.getText().toString();
