@@ -94,9 +94,28 @@ public class Dashboard extends AppCompatActivity {
 
     }
 
-    public void cardViewClick(View view) {
+    public void presentCardView(View view) {
         CardView cardView = findViewById(R.id.cardPresent);
         Intent intent1 = new Intent(Dashboard.this, PresentActivity.class);
         startActivity(intent1);
+
+    }
+
+    public void absentCardView(View view) {
+        Intent intent = new Intent(Dashboard.this, AbsentActivity.class);
+        startActivity(intent);
+
+    }
+
+    public void pendingCardView(View view) {
+        Intent intent = new Intent(Dashboard.this, PendingActivity.class);
+        startActivity(intent);
+
+    }
+
+    public void leavesTodayCardView(View view) {
+        Intent intent = new Intent(Dashboard.this, LeavesTodayActivity.class);
+        startActivity(intent);
+
     }
 }

@@ -12,4 +12,7 @@
     <string name="start_time">Start Time</string>
     <string name="end_time">End Time</string>
     <string name="present_employee">Present Employee</string>
+    <string name="absent_employee" >Absent Employee</string>
+    <string name="leaves_today1">Leaves Today</string>
+    <string name="pending_employees">Pending Leaves</string>
 </resources>

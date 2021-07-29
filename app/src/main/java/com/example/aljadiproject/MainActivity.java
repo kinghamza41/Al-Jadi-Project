@@ -2,18 +2,36 @@ package com.example.aljadiproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.NotificationCompat;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.aljadiproject.APIIntegration.Controller;
 import com.example.aljadiproject.Models.ResponseModel;
+import com.pusher.client.Pusher;
+import com.pusher.client.PusherOptions;
+import com.pusher.client.channel.Channel;
+import com.pusher.client.channel.PusherEvent;
+import com.pusher.client.channel.SubscriptionEventListener;
+import com.pusher.client.connection.ConnectionEventListener;
+import com.pusher.client.connection.ConnectionState;
+import com.pusher.client.connection.ConnectionStateChange;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
     EditText t1, t2;
     AppCompatButton savebtn;
     TextView tv;
+    private NotificationManager mNotificationManager;
+    private NotificationCompat.Builder mBuilder;
+    private static final String NOTIFICATION_CHANNEL_ID = "100002";
 
 
     @Override
@@ -42,7 +63,67 @@ public class MainActivity extends AppCompatActivity {
                 processLogin();
             }
         });
+        PusherOptions options = new PusherOptions();
+        options.setCluster("ap2");
 
+        Pusher pusher = new Pusher("2d100a8c74ff5472530d", options);
+
+        pusher.connect(new ConnectionEventListener() {
+            @Override
+            public void onConnectionStateChange(ConnectionStateChange change) {
+                Log.i("Pusher", "State changed from " + change.getPreviousState() +
+                        " to " + change.getCurrentState());
+            }
+
+            @Override
+            public void onError(String message, String code, Exception e) {
+                Log.i("Pusher", "There was a problem connecting! " +
+                        "\ncode: " + code +
+                        "\nmessage: " + message +
+                        "\nException: " + e
+                );
+            }
+        }, ConnectionState.ALL);
+
+        Channel channel = pusher.subscribe("my-channel");
+
+        channel.bind("my-event", new SubscriptionEventListener() {
+            @Override
+            public void onEvent(PusherEvent event) {
+                String data= event.getData();
+                String nama = "";
+                try {
+                    JSONObject jsonObject = new JSONObject(data);
+                    nama = jsonObject.getString("name");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                mBuilder = new NotificationCompat.Builder(MainActivity.this);
+                mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+                mBuilder.setContentTitle("Al Jadi Notifications Test")
+                        .setContentText(nama)
+                        .setAutoCancel(false)
+                        .setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
+                mNotificationManager = (NotificationManager) MainActivity.this
+                        .getSystemService(Context.NOTIFICATION_SERVICE);
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                    int importance  = NotificationManager.IMPORTANCE_HIGH;
+                    NotificationChannel notificationChannel = new NotificationChannel
+                            (NOTIFICATION_CHANNEL_ID,"NOTIFICATION_CHANNEL_NAME", importance);
+                    notificationChannel.enableLights(true);
+                    notificationChannel.setLightColor(Color.RED);
+                    notificationChannel.enableVibration(true);
+                    notificationChannel.setVibrationPattern(new long[]{100,200,300,400,500,400,300,200,400});
+
+                    assert mNotificationManager !=null;
+                    mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
+                    mNotificationManager.createNotificationChannel(notificationChannel);
+                }
+                assert mNotificationManager !=null;
+                mNotificationManager.notify(0, mBuilder.build());
+            }
+        });
     }
 
 
