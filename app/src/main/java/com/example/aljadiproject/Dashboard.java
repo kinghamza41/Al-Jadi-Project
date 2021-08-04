@@ -9,20 +9,25 @@ import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.aljadiproject.Models.LoginApiData.LoginRequest;
+import com.example.aljadiproject.SessionManager.UserSession;
 import com.google.android.material.navigation.NavigationView;
 
 public class Dashboard extends AppCompatActivity {
+    private final String sharedprofileName = "haccount";
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     DrawerLayout drawerLayout;
@@ -58,12 +63,21 @@ public class Dashboard extends AppCompatActivity {
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
                     case R.id.logout:
-                        SharedPreferences sp = getSharedPreferences("credentials", MODE_PRIVATE);
-                        sp.edit().remove("username").commit();
-                        sp.edit().remove("password").commit();
-                        sp.edit().apply();
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        finish();
+
+//
+                        UserSession userSession = new UserSession(getApplicationContext());
+                        String ACCESS_TOKEN = userSession.GetKeyVlaue("access_token");
+
+                        Log.d("Token", ACCESS_TOKEN);
+
+                        if ( ACCESS_TOKEN != null ) {
+                            LoginRequest loginRequest = new LoginRequest();
+                            SharedPreferences preferences = getSharedPreferences(sharedprofileName, Context.MODE_PRIVATE);
+                            preferences.edit().remove("access_token").apply();
+                            preferences.edit().remove(loginRequest.getEmail()).apply();
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            finish();
+                        }
                         break;
                 }
                 return true;
@@ -90,6 +104,9 @@ public class Dashboard extends AppCompatActivity {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
 //        setContentView(R.layout.activity_dashboard);
+//            Intent intent = new Intent();
+//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            //super.onBackPressed();
         }
 
     }

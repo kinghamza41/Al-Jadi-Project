@@ -4,7 +4,7 @@
     <string name="close">Close</string>
     <string name="present">Present</string>
     <string name="absent">Absent</string>
-    <string name="pending">Pending</string>
+    <string name="pending">Pending Leaves</string>
     <string name="leaves_today">Leaves Today</string>
     <string name="id">ID</string>
     <string name="name">Name</string>
