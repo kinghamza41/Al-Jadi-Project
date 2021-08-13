@@ -21,8 +21,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/toolbarBackground"
-            app:title="Dashboard"
-            app:titleTextColor="@color/cardview_dark_background" />
+            app:title="Dashboard">
+<!--            <ImageView-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_width="50dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:src="@drawable/dashboard_logo"-->
+<!--                android:id="@+id/imglogo"/>-->
+        </androidx.appcompat.widget.Toolbar>
 
     </RelativeLayout>
 

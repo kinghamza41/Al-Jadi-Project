@@ -9,16 +9,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.aljadiproject.Models.PendingLeavesApiData.PendingLeavesActualData;
 import com.example.aljadiproject.Models.PresentModel;
 import com.example.aljadiproject.R;
 
 import java.util.ArrayList;
 
 public class PendingAdapter extends RecyclerView.Adapter<PendingAdapter.ViewHolder> {
-    ArrayList<PresentModel> data;
+    ArrayList<PendingLeavesActualData> data;
     Context context;
 
-    public PendingAdapter(ArrayList<PresentModel> data, Context context) {
+    public PendingAdapter(ArrayList<PendingLeavesActualData> data, Context context) {
         this.data = data;
         this.context = context;
     }
@@ -33,12 +34,12 @@ public class PendingAdapter extends RecyclerView.Adapter<PendingAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final PresentModel temp = data.get(position);
-        holder.id.setText(data.get(position).getId());
-        holder.name.setText(data.get(position).getName());
-        holder.company.setText(data.get(position).getCompany());
-        holder.startTime.setText(data.get(position).getStartTime());
-        holder.endTime.setText(data.get(position).getEndTime());
+      //  final PresentModel temp = data.get(position);
+        holder.id.setText(data.get(position).getId().toString());
+        holder.name.setText(data.get(position).getLeave_type());
+        holder.company.setText(data.get(position).getReason_for_leave());
+        holder.startTime.setText(data.get(position).getLeave_duration_type());
+        holder.endTime.setText(data.get(position).getStart_date());
     }
 
     @Override

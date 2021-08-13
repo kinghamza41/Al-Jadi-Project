@@ -9,16 +9,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.aljadiproject.Models.PresentModel;
+import com.example.aljadiproject.Models.AbsentEmployeeApiData.AbsentEmployeesData;
+import com.example.aljadiproject.Models.PresentEmployeeApiData.PresentEmployeesData;
 import com.example.aljadiproject.R;
 
 import java.util.ArrayList;
 
 public class AbsentAdapter extends RecyclerView.Adapter<AbsentAdapter.ViewHolder> {
-    ArrayList<PresentModel> data;
+    ArrayList<AbsentEmployeesData> data;
     Context context;
 
-    public AbsentAdapter(ArrayList<PresentModel> data, Context context) {
+    public AbsentAdapter(ArrayList<AbsentEmployeesData> data, Context context) {
         this.data = data;
         this.context = context;
     }
@@ -33,12 +34,12 @@ public class AbsentAdapter extends RecyclerView.Adapter<AbsentAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final PresentModel temp = data.get(position);
-        holder.id.setText(data.get(position).getId());
+      //  final AbsentEmployeesModel.EmployeeAttendance temp = data.get(position);
+        holder.id.setText(data.get(position).getId().toString());
         holder.name.setText(data.get(position).getName());
-        holder.company.setText(data.get(position).getCompany());
-        holder.startTime.setText(data.get(position).getStartTime());
-        holder.endTime.setText(data.get(position).getEndTime());
+        holder.company.setText(data.get(position).getDesignation());
+        holder.startTime.setText(data.get(position).getStart_time());
+        holder.endTime.setText(data.get(position).getEnd_time());
     }
 
     @Override

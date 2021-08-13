@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -7,62 +8,67 @@
 
     <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:scrollbars="none">
 
         <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:stretchColumns="1,2,3,4,5"
+
         >
 
-            <TableRow>
+            <TableRow >
 
                 <TextView
                     android:id="@+id/id"
                     android:layout_column="1"
                    android:layout_gravity="start"
                     android:inputType="number"
-                    android:text="1"
+                    android:text="@string/_1"
                     android:textSize="16sp"
                     android:padding="8dp"
-                    />
+                    tools:ignore="TextViewEdits" />
 
                 <TextView
                     android:id="@+id/name"
                     android:layout_column="1"
                     android:layout_gravity="start"
-                    android:text="Ali"
+                    android:text="@string/ali"
                     android:inputType="text"
                     android:textSize="16sp"
-                    android:padding="8dp"/>
+                    android:padding="8dp"
+                    tools:ignore="TextViewEdits" />
 
                 <TextView
                     android:id="@+id/company"
                     android:layout_column="1"
                     android:layout_gravity="start"
-                    android:text="Al Jadi"
+                    android:text="@string/al_jadi"
                     android:textSize="16sp"
                     android:padding="8dp"
-                    android:inputType="text"/>
+                    android:inputType="text"
+                    tools:ignore="TextViewEdits" />
 
                 <TextView
                     android:id="@+id/startTime"
                     android:layout_column="1"
                     android:layout_gravity="start"
                     android:inputType="time"
-                    android:text="10:00AM"
+                    android:text="@string/_10_00am"
                     android:textSize="16sp"
-                    android:padding="8dp"/>
+                    android:padding="8dp"
+                    tools:ignore="TextViewEdits" />
 
                 <TextView
                     android:id="@+id/endTime"
                     android:layout_column="1"
                     android:layout_gravity="start"
                     android:inputType="time"
-                    android:text="12:00PM"
+                    android:text="@string/_12_00pm"
                     android:textSize="16sp"
-                    android:padding="8dp"/>
+                    android:padding="8dp"
+                    tools:ignore="TextViewEdits" />
             </TableRow>
         </TableLayout>
     </HorizontalScrollView>

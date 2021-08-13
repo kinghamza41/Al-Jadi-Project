@@ -1,67 +1,85 @@
 package com.example.aljadiproject;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.example.aljadiproject.APIIntegration.Controller;
 import com.example.aljadiproject.Adapter.PresentAdapter;
-import com.example.aljadiproject.Models.PresentModel;
+import com.example.aljadiproject.Models.GetPresentEmployeesResponse;
+import com.example.aljadiproject.Models.PresentEmployeeApiData.PresentEmployeesData;
+import com.example.aljadiproject.Models.PresentEmployeeApiData.SampleResultPresentEmployees;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class PresentActivity extends AppCompatActivity {
     RecyclerView presentRecView;
+    NestedScrollView nestedScrollView;
+    private int pageCount = 1;
+    private static int perPage = 20;
+    SampleResultPresentEmployees arrayList;
+    String ACCESS_TOKEN;
+    TextView test;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_present);
         presentRecView = findViewById(R.id.presentrecview);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        progressBar = findViewById(R.id.pbHeaderProgress);
+        progressBar.setVisibility(View.VISIBLE);
+        // test = findViewById(R.id.test);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true);
         presentRecView.setLayoutManager(layoutManager);
-        PresentAdapter adapter = new PresentAdapter(dataqueue(), getApplicationContext());
-        presentRecView.setAdapter(adapter);
+//        PresentAdapter adapter = new PresentAdapter(arrayList, getApplicationContext());
+//        presentRecView.setAdapter(adapter);
+        getPresentEmployees();
+
+
     }
 
-    public ArrayList<PresentModel> dataqueue() {
-        ArrayList<PresentModel> holder = new ArrayList<>();
-
-        PresentModel obj1 = new PresentModel();
-        obj1.setId("1");
-        obj1.setName("Hamza");
-        obj1.setCompany("Al Jadi");
-        obj1.setStartTime("10:00AM");
-        obj1.setEndTime("12:00PM");
-        holder.add(obj1);
-
-        PresentModel obj2 = new PresentModel();
-        obj2.setId("2");
-        obj2.setName("Shahzaib");
-        obj2.setCompany("Al Jadi");
-        obj2.setStartTime("10:00AM");
-        obj2.setEndTime("12:00PM");
-        holder.add(obj2);
-
-        PresentModel obj3 = new PresentModel();
-        obj3.setId("3");
-        obj3.setName("Usama");
-        obj3.setCompany("Al Jadi");
-        obj3.setStartTime("10:00AM");
-        obj3.setEndTime("12:00PM");
-        holder.add(obj3);
+    private void getPresentEmployees() {
 
 
-        PresentModel obj4 = new PresentModel();
-        obj4.setId("4");
-        obj4.setName("Suleman");
-        obj4.setCompany("Al Jadi");
-        obj4.setStartTime("11:00AM");
-        obj4.setEndTime("12:00PM");
-        holder.add(obj4);
+        Call<GetPresentEmployeesResponse> call = Controller.getInstance().getapi().getPresentEmployees();
 
-        return holder;
+        call.enqueue(new Callback<GetPresentEmployeesResponse>() {
+            @Override
+            public void onResponse(Call<GetPresentEmployeesResponse> call, Response<GetPresentEmployeesResponse> response) {
+                ArrayList<PresentEmployeesData> arrayList = new ArrayList<>();
+                arrayList = response.body().getData().getPresent_employees().getPresentEmployeesData();
+
+                PresentAdapter adapter = new PresentAdapter(arrayList, getApplicationContext());
+                presentRecView.setAdapter(adapter);
+                progressBar.setVisibility(View.GONE);
+                recyclerViewAdapter();
+
+                Log.d("RESPONSE_DATA", response.body().getData().getPresent_employees().getPresentEmployeesData().get(0).getCompany_name());
+            }
+
+            @Override
+            public void onFailure(Call<GetPresentEmployeesResponse> call, Throwable t) {
+                Log.d("RESPONSE_ERROR", t.getLocalizedMessage());
+            }
+        });
+    }
+
+    private void recyclerViewAdapter() {
+
 
     }
+
+//& null!=PresentEmployeesModel.Example
 }

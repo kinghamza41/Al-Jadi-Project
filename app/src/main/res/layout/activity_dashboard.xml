@@ -14,7 +14,8 @@
         android:layout_height="140dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="70dp"
-        app:srcCompat="@drawable/logo2" />
+        app:srcCompat="@drawable/logo2"
+        android:contentDescription="@string/al_jadi_logo" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,7 +42,22 @@
                 android:id="@+id/layout1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+                <RelativeLayout
+                   android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/white_circle">
+                    <ProgressBar
 
+                        android:id="@+id/presentPB"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:indeterminate="true"
+                        android:indeterminateDrawable="@drawable/white_circle">
+                    </ProgressBar>
+
+                </RelativeLayout>
                 <TextView
                     android:id="@+id/tvPresent"
                     android:layout_width="wrap_content"
@@ -49,7 +65,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:text="18"
+                    android:text=""
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
@@ -82,12 +98,28 @@
             android:gravity="center"
             android:onClick="absentCardView"
             android:orientation="vertical"
-            app:cardElevation="5dp">
+            app:cardElevation="5dp"
+            android:layout_marginStart="10dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/white_circle">
+                    <ProgressBar
 
+                        android:id="@+id/absentPB"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:indeterminate="true"
+                        android:indeterminateDrawable="@drawable/white_circle">
+                    </ProgressBar>
+
+                </RelativeLayout>
                 <TextView
                     android:id="@+id/tvAbsent"
                     android:layout_width="wrap_content"
@@ -95,7 +127,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:text="11"
+                    android:text=""
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
@@ -139,7 +171,22 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/white_circle">
+                    <ProgressBar
 
+                        android:id="@+id/pendingPB"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:indeterminate="true"
+                        android:indeterminateDrawable="@drawable/white_circle">
+                    </ProgressBar>
+
+                </RelativeLayout>
                 <TextView
                     android:id="@+id/tvPending"
                     android:layout_width="wrap_content"
@@ -147,7 +194,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:text="5"
+                    android:text=""
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
@@ -180,12 +227,28 @@
             android:gravity="center"
             android:onClick="leavesTodayCardView"
             android:orientation="vertical"
-            app:cardElevation="5dp">
+            app:cardElevation="5dp"
+            android:layout_marginStart="10dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/white_circle">
+                    <ProgressBar
 
+                        android:id="@+id/onLeavesPB"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:indeterminate="true"
+                        android:indeterminateDrawable="@drawable/white_circle">
+                    </ProgressBar>
+
+                </RelativeLayout>
                 <TextView
                     android:id="@+id/tvTodayLeaves"
                     android:layout_width="wrap_content"
@@ -193,7 +256,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:text="1"
+                    android:text=""
                     android:textSize="30sp"
                     android:textStyle="bold" />
 

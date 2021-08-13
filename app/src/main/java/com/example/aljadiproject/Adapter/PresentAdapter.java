@@ -9,16 +9,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.aljadiproject.Models.PresentModel;
 import com.example.aljadiproject.R;
+import com.example.aljadiproject.Models.PresentEmployeeApiData.PresentEmployeesData;
 
 import java.util.ArrayList;
 
 public class PresentAdapter extends RecyclerView.Adapter<PresentAdapter.ViewHolder> {
-    ArrayList<PresentModel> data;
+    ArrayList<PresentEmployeesData> data;
     Context context;
 
-    public PresentAdapter(ArrayList<PresentModel> data, Context context) {
+    public PresentAdapter(ArrayList<PresentEmployeesData> data, Context context) {
         this.data = data;
         this.context = context;
     }
@@ -33,12 +33,12 @@ public class PresentAdapter extends RecyclerView.Adapter<PresentAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final PresentModel temp = data.get(position);
-        holder.id.setText(data.get(position).getId());
-        holder.name.setText(data.get(position).getName());
-        holder.company.setText(data.get(position).getCompany());
-        holder.startTime.setText(data.get(position).getStartTime());
-        holder.endTime.setText(data.get(position).getEndTime());
+       // final PresentEmployeesModel.Datum temp = data.get(position);
+        holder.id.setText(data.get(position).getId().toString());
+        holder.name.setText(data.get(position).getEmployee_name());
+        holder.company.setText(data.get(position).getCompany_name());
+        holder.startTime.setText(data.get(position).getStart_time());
+        holder.endTime.setText(data.get(position).getEnd_time());
     }
 
     @Override

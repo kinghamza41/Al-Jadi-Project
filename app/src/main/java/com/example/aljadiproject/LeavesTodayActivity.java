@@ -5,61 +5,62 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
+import com.example.aljadiproject.APIIntegration.Controller;
 import com.example.aljadiproject.Adapter.LeavesTodayAdapter;
+import com.example.aljadiproject.Adapter.PendingAdapter;
+import com.example.aljadiproject.Models.GetOnLeavesResponse;
+import com.example.aljadiproject.Models.GetPendingLeavesResponse;
+import com.example.aljadiproject.Models.OnLeavesApiData.OnLeavesActualData;
+import com.example.aljadiproject.Models.PendingLeavesApiData.PendingLeavesActualData;
 import com.example.aljadiproject.Models.PresentModel;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class LeavesTodayActivity extends AppCompatActivity {
     RecyclerView presentRecView;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaves_today);
         presentRecView = findViewById(R.id.presentrecview);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        progressBar = findViewById(R.id.pbHeaderProgress);
+        progressBar.setVisibility(View.VISIBLE);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true);
+//        presentRecView.setHasFixedSize(true);
         presentRecView.setLayoutManager(layoutManager);
-        LeavesTodayAdapter adapter = new LeavesTodayAdapter(dataqueue(), getApplicationContext());
-        presentRecView.setAdapter(adapter);
+        getOnLeaves();
     }
-    public ArrayList<PresentModel> dataqueue() {
-        ArrayList<PresentModel> holder = new ArrayList<>();
+    public void getOnLeaves() {
 
-        PresentModel obj1 = new PresentModel();
-        obj1.setId("1");
-        obj1.setName("Hamza");
-        obj1.setCompany("Al Jadi");
-        obj1.setStartTime("10:00AM");
-        obj1.setEndTime("12:00PM");
-        holder.add(obj1);
+        Call<GetOnLeavesResponse> call = Controller.getInstance().getapi().getOnLeaves();
 
-        PresentModel obj2 = new PresentModel();
-        obj2.setId("2");
-        obj2.setName("Shahzaib");
-        obj2.setCompany("Al Jadi");
-        obj2.setStartTime("10:00AM");
-        obj2.setEndTime("12:00PM");
-        holder.add(obj2);
+        call.enqueue(new Callback<GetOnLeavesResponse>() {
+            @Override
+            public void onResponse(Call<GetOnLeavesResponse> call, Response<GetOnLeavesResponse> response) {
+                ArrayList<OnLeavesActualData> arrayList = new ArrayList<>();
+                arrayList = response.body().getData().getLeaves().getOnLeavesActualData();
 
-        PresentModel obj3 = new PresentModel();
-        obj3.setId("3");
-        obj3.setName("Usama");
-        obj3.setCompany("Al Jadi");
-        obj3.setStartTime("10:00AM");
-        obj3.setEndTime("12:00PM");
-        holder.add(obj3);
+                LeavesTodayAdapter adapter = new LeavesTodayAdapter(arrayList, getApplicationContext());
+                presentRecView.setAdapter(adapter);
+                progressBar.setVisibility(View.GONE);
 
 
-        PresentModel obj4 = new PresentModel();
-        obj4.setId("4");
-        obj4.setName("Suleman");
-        obj4.setCompany("Al Jadi");
-        obj4.setStartTime("11:00AM");
-        obj4.setEndTime("12:00PM");
-        holder.add(obj4);
+                //    Log.d("RESPONSE_DATA", response.body().getData().getPresent_employees().getPresentEmployeesData().get(0).getCompany_name());
+            }
 
-        return holder;
-
+            @Override
+            public void onFailure(Call<GetOnLeavesResponse> call, Throwable t) {
+                Log.d("RESPONSE_ERROR", t.getLocalizedMessage());
+            }
+        });
     }
 }

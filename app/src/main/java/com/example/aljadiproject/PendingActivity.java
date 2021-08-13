@@ -1,65 +1,70 @@
 package com.example.aljadiproject;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
+import com.example.aljadiproject.APIIntegration.Controller;
+import com.example.aljadiproject.Adapter.AbsentAdapter;
 import com.example.aljadiproject.Adapter.PendingAdapter;
+import com.example.aljadiproject.Models.AbsentEmployeeApiData.AbsentEmployeesData;
+import com.example.aljadiproject.Models.GetAbsentEmployeesReponse;
+import com.example.aljadiproject.Models.GetPendingLeavesResponse;
+import com.example.aljadiproject.Models.PendingLeavesApiData.PendingLeavesActualData;
 import com.example.aljadiproject.Models.PresentModel;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class PendingActivity extends AppCompatActivity {
     RecyclerView presentRecView;
+    NestedScrollView nestedScrollView;
+    private int pageCount = 1;
+    private static int perPage = 80;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pending);
         presentRecView = findViewById(R.id.presentrecview);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        progressBar= findViewById(R.id.pbHeaderProgress);
+        progressBar.setVisibility(View.VISIBLE);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true);
+//        presentRecView.setHasFixedSize(true);
         presentRecView.setLayoutManager(layoutManager);
-        PendingAdapter adapter = new PendingAdapter(dataqueue(), getApplicationContext());
-        presentRecView.setAdapter(adapter);
+        getAbsentEmployees();
     }
-    public ArrayList<PresentModel> dataqueue() {
-        ArrayList<PresentModel> holder = new ArrayList<>();
+    public void getAbsentEmployees() {
 
-        PresentModel obj1 = new PresentModel();
-        obj1.setId("1");
-        obj1.setName("Hamza");
-        obj1.setCompany("Al Jadi");
-        obj1.setStartTime("10:00AM");
-        obj1.setEndTime("12:00PM");
-        holder.add(obj1);
+        Call<GetPendingLeavesResponse> call = Controller.getInstance().getapi().getPendingLeaves();
 
-        PresentModel obj2 = new PresentModel();
-        obj2.setId("2");
-        obj2.setName("Shahzaib");
-        obj2.setCompany("Al Jadi");
-        obj2.setStartTime("10:00AM");
-        obj2.setEndTime("12:00PM");
-        holder.add(obj2);
+        call.enqueue(new Callback<GetPendingLeavesResponse>() {
+            @Override
+            public void onResponse(Call<GetPendingLeavesResponse> call, Response<GetPendingLeavesResponse> response) {
+                ArrayList<PendingLeavesActualData> arrayList = new ArrayList<>();
+                arrayList = response.body().getData().getLeaves().getPendingLeavesData();
 
-        PresentModel obj3 = new PresentModel();
-        obj3.setId("3");
-        obj3.setName("Usama");
-        obj3.setCompany("Al Jadi");
-        obj3.setStartTime("10:00AM");
-        obj3.setEndTime("12:00PM");
-        holder.add(obj3);
+                PendingAdapter adapter = new PendingAdapter(arrayList, getApplicationContext());
+                presentRecView.setAdapter(adapter);
+                progressBar.setVisibility(View.GONE);
 
 
-        PresentModel obj4 = new PresentModel();
-        obj4.setId("4");
-        obj4.setName("Suleman");
-        obj4.setCompany("Al Jadi");
-        obj4.setStartTime("11:00AM");
-        obj4.setEndTime("12:00PM");
-        holder.add(obj4);
+                //    Log.d("RESPONSE_DATA", response.body().getData().getPresent_employees().getPresentEmployeesData().get(0).getCompany_name());
+            }
 
-        return holder;
-
+            @Override
+            public void onFailure(Call<GetPendingLeavesResponse> call, Throwable t) {
+                Log.d("RESPONSE_ERROR", t.getLocalizedMessage());
+            }
+        });
     }
 }

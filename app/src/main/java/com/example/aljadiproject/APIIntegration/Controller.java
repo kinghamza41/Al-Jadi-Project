@@ -3,6 +3,8 @@ package com.example.aljadiproject.APIIntegration;
 import android.util.Log;
 
 import com.example.aljadiproject.SessionManager.UserSession;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 
@@ -23,9 +25,18 @@ public class Controller {
     private static Controller clientObj;
 
     private static Retrofit retrofit;
+    static Gson gson = new GsonBuilder().setLenient().create();
 
     Controller() {
-
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request newRequest = chain.request().newBuilder()
+                        //   .addHeader("Authorization", "Bearer " + ACCESS_TOKEN)
+                        .build();
+                return chain.proceed(newRequest);
+            }
+        }).build();
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
