@@ -1,6 +1,9 @@
 package com.example.aljadiproject.Adapter;
 
+import android.annotation.SuppressLint;
+import android.app.Notification;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.aljadiproject.Models.PendingLeavesApiData.PendingLeavesActualData;
 import com.example.aljadiproject.R;
 import com.example.aljadiproject.Models.PresentEmployeeApiData.PresentEmployeesData;
 
@@ -27,23 +31,56 @@ public class PresentAdapter extends RecyclerView.Adapter<PresentAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.present_recyclerview, parent, false);
+        View view = layoutInflater.inflate(R.layout.present_list_items, parent, false);
         return new ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
        // final PresentEmployeesModel.Datum temp = data.get(position);
-        holder.id.setText(data.get(position).getId().toString());
-        holder.name.setText(data.get(position).getEmployee_name());
-        holder.company.setText(data.get(position).getCompany_name());
-        holder.startTime.setText(data.get(position).getStart_time());
-        holder.endTime.setText(data.get(position).getEnd_time());
+        ViewHolder rowViewHolder;
+        rowViewHolder = (ViewHolder) holder;
+        int rowPos = rowViewHolder.getAdapterPosition();
+        if (rowPos == 0) {
+            rowViewHolder.id.setBackgroundResource(R.drawable.table_header_cell_bg);
+            rowViewHolder.name.setBackgroundResource(R.drawable.table_header_cell_bg);
+            rowViewHolder.company.setBackgroundResource(R.drawable.table_header_cell_bg);
+            rowViewHolder.startTime.setBackgroundResource(R.drawable.table_header_cell_bg);
+            rowViewHolder.endTime.setBackgroundResource(R.drawable.table_header_cell_bg);
+
+            rowViewHolder.id.setText("ID");
+            rowViewHolder.id.setTextColor(Color.BLACK);
+            rowViewHolder.name.setText("Employee Name");
+            rowViewHolder.name.setTextColor(Color.BLACK);
+            rowViewHolder.company.setText("Company");
+            rowViewHolder.company.setTextColor(Color.BLACK);
+            rowViewHolder.startTime.setText("Start time");
+            rowViewHolder.startTime.setTextColor(Color.BLACK);
+            rowViewHolder.endTime.setText("End time");
+            rowViewHolder.endTime.setTextColor(Color.BLACK);
+        } else {
+           PresentEmployeesData modal = data.get(rowPos - 1);
+//           PendingLeavesActualData.user modal2 = data2.get(rowPos - 1);
+//            PendingUser modal2 = data2.get(rowPos -1);
+
+            rowViewHolder.id.setBackgroundResource(R.drawable.table_content_cell_bg);
+            rowViewHolder.name.setBackgroundResource(R.drawable.table_content_cell_bg);
+            rowViewHolder.company.setBackgroundResource(R.drawable.table_content_cell_bg);
+            rowViewHolder.startTime.setBackgroundResource(R.drawable.table_content_cell_bg);
+            rowViewHolder.endTime.setBackgroundResource(R.drawable.table_content_cell_bg);
+            rowViewHolder.id.setText(modal.getUser_id().toString() + "");
+            rowViewHolder.name.setText(modal.getEmployee_name()+ "");
+            rowViewHolder.company.setText(modal.getCompany_name() + "");
+            rowViewHolder.startTime.setText(modal.getStart_time() + "");
+            rowViewHolder.endTime.setText(modal.getEnd_time() + "");
+        }
+
     }
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return data.size() + 1;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -52,11 +89,11 @@ public class PresentAdapter extends RecyclerView.Adapter<PresentAdapter.ViewHold
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            id = itemView.findViewById(com.example.aljadiproject.R.id.id);
-            name = itemView.findViewById(com.example.aljadiproject.R.id.name);
-            company = itemView.findViewById(com.example.aljadiproject.R.id.company);
-            startTime = itemView.findViewById(com.example.aljadiproject.R.id.startTime);
-            endTime = itemView.findViewById(com.example.aljadiproject.R.id.endTime);
+            id = itemView.findViewById(R.id.p_id);
+            name = itemView.findViewById(R.id.p_name);
+            company = itemView.findViewById(R.id.p_company);
+            startTime = itemView.findViewById(R.id.p_start);
+            endTime = itemView.findViewById(R.id.p_end);
 
         }
     }

@@ -1,6 +1,7 @@
 package com.example.aljadiproject.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.aljadiproject.Models.AbsentEmployeeApiData.AbsentEmployeesData;
+import com.example.aljadiproject.Models.PendingLeavesApiData.PendingLeavesActualData;
 import com.example.aljadiproject.Models.PresentEmployeeApiData.PresentEmployeesData;
 import com.example.aljadiproject.R;
 
@@ -28,18 +30,54 @@ public class AbsentAdapter extends RecyclerView.Adapter<AbsentAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.present_recyclerview, parent, false);
+        View view = layoutInflater.inflate(R.layout.absent_list_items, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-      //  final AbsentEmployeesModel.EmployeeAttendance temp = data.get(position);
-        holder.id.setText(data.get(position).getId().toString());
-        holder.name.setText(data.get(position).getName());
-        holder.company.setText(data.get(position).getDesignation());
-        holder.startTime.setText(data.get(position).getStart_time());
-        holder.endTime.setText(data.get(position).getEnd_time());
+        //  final AbsentEmployeesModel.EmployeeAttendance temp = data.get(position);
+
+        ViewHolder rowViewHolder;
+        rowViewHolder = (ViewHolder) holder;
+        int rowPos = rowViewHolder.getAdapterPosition();
+        if (rowPos == 0) {
+            rowViewHolder.id.setBackgroundResource(R.drawable.table_header_cell_bg);
+            rowViewHolder.name.setBackgroundResource(R.drawable.table_header_cell_bg);
+            rowViewHolder.company.setBackgroundResource(R.drawable.table_header_cell_bg);
+            rowViewHolder.startTime.setBackgroundResource(R.drawable.table_header_cell_bg);
+            rowViewHolder.endTime.setBackgroundResource(R.drawable.table_header_cell_bg);
+
+            rowViewHolder.id.setText("ID");
+            rowViewHolder.id.setTextColor(Color.BLACK);
+            rowViewHolder.name.setText("Name");
+            rowViewHolder.name.setTextColor(Color.BLACK);
+            rowViewHolder.company.setText("Company");
+            rowViewHolder.company.setTextColor(Color.BLACK);
+            rowViewHolder.startTime.setText("Start time");
+            rowViewHolder.startTime.setTextColor(Color.BLACK);
+            rowViewHolder.endTime.setText("End time");
+            rowViewHolder.endTime.setTextColor(Color.BLACK);
+        } else {
+            AbsentEmployeesData modal = data.get(rowPos - 1);
+            rowViewHolder.id.setBackgroundResource(R.drawable.table_content_cell_bg);
+            rowViewHolder.name.setBackgroundResource(R.drawable.table_content_cell_bg);
+            rowViewHolder.company.setBackgroundResource(R.drawable.table_content_cell_bg);
+            rowViewHolder.startTime.setBackgroundResource(R.drawable.table_content_cell_bg);
+            rowViewHolder.endTime.setBackgroundResource(R.drawable.table_content_cell_bg);
+//            rowViewHolder.id.setText(modal.getId().toString() + "");
+//            rowViewHolder.name.setText(modal.getName() + "");
+//            rowViewHolder.company.setText(modal.getDesignation() + "");
+//            rowViewHolder.startTime.setText(modal.getStart_time() + "");
+//            rowViewHolder.endTime.setText(modal.getEnd_time() + "");
+            rowViewHolder.id.setText(modal.getId().toString());
+            rowViewHolder.name.setText(modal.getName());
+            rowViewHolder.company.setText(modal.getDesignation());
+            rowViewHolder.startTime.setText(modal.getStart_time());
+            rowViewHolder.endTime.setText(modal.getEnd_time());
+        }
+
+
     }
 
     @Override
@@ -53,11 +91,11 @@ public class AbsentAdapter extends RecyclerView.Adapter<AbsentAdapter.ViewHolder
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            id = itemView.findViewById(R.id.id);
-            name = itemView.findViewById(R.id.name);
-            company = itemView.findViewById(R.id.company);
-            startTime = itemView.findViewById(R.id.startTime);
-            endTime = itemView.findViewById(R.id.endTime);
+            id = itemView.findViewById(R.id.a_id);
+            name = itemView.findViewById(R.id.a_name);
+            company = itemView.findViewById(R.id.a_company);
+            startTime = itemView.findViewById(R.id.a_start);
+            endTime = itemView.findViewById(R.id.a_end);
 
         }
     }

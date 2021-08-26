@@ -7,6 +7,16 @@ import java.util.ArrayList;
 
 public class EmployeesOnLeaves {
     String current_page;
+    Integer total;
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
+    }
+
     @SerializedName("data")
     ArrayList<OnLeavesActualData> onLeavesActualData;
 

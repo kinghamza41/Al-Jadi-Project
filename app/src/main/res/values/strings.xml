@@ -15,4 +15,14 @@
     <string name="absent_employee" >Absent Employee</string>
     <string name="leaves_today1">Leaves Today</string>
     <string name="pending_employees">Pending Leaves</string>
+    <string name="dashboard_home">Home</string>
+    <string name="logout">Logout</string>
+    <string name="al_jadi_logo">Al Jadi Logo</string>
+    <string name="_1">1</string>
+    <string name="ali">Ali</string>
+    <string name="al_jadi">Al Jadi</string>
+    <string name="_10_00am">10:00AM</string>
+    <string name="_12_00pm">12:00PM</string>
+    <string name="total">total</string>
+    <string name="view_btn">View</string>
 </resources>

@@ -45,6 +45,7 @@ public class Dashboard extends AppCompatActivity {
     TextView tvPresent, tvAbsent, tvPending, tvTodayLeaves;
     Button btn;
     ProgressBar presentPB, absentPB, pendingPB, onLeavesPB;
+    CardView cardPresent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +90,7 @@ public class Dashboard extends AppCompatActivity {
         onLeavesPB.setVisibility(View.VISIBLE);
         navigationView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawer);
+        cardPresent = findViewById(R.id.cardPresent);
     }
 
     private void getDashboardResponse() {

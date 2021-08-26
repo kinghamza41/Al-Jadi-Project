@@ -35,6 +35,7 @@ import com.pusher.client.connection.ConnectionEventListener;
 import com.pusher.client.connection.ConnectionState;
 import com.pusher.client.connection.ConnectionStateChange;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -68,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         t1 = findViewById(R.id.t1);
         t2 = findViewById(R.id.t2);
         tv = findViewById(R.id.tv);
-
         savebtn = findViewById(R.id.savebtn);
         //checkUserExistence();
         savebtn.setOnClickListener(new View.OnClickListener() {
@@ -161,7 +161,6 @@ public class MainActivity extends AppCompatActivity {
 
             t2.setError("Password Required");
             t2.requestFocus();
-            return;
 
         } else {
 
@@ -172,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
 
             call.enqueue(new Callback<LoginResponse>() {
                 @Override
-                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                public void onResponse(@NotNull Call<LoginResponse> call, @NotNull Response<LoginResponse> response) {
                     if (response.body().getStatusCode() == 200) {
                         LoginResponse loginResponse = response.body();
                         Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
@@ -183,7 +182,6 @@ public class MainActivity extends AppCompatActivity {
                                 new UserSession(getApplicationContext()).SaveCredentials(loginResponse.getData().getToken());
                                 Intent intent = new Intent(getApplicationContext(), Dashboard.class);
                                 startActivity(intent);
-
                             }
                         }, 300);
                     } else if (response.body().getStatusCode() != 200) {

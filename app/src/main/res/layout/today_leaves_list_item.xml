@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/lt_id"
+        android:layout_width="70dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="top"
+        android:background="@drawable/table_content_cell_bg"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/lt_name"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="@drawable/table_content_cell_bg"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/lt_company"
+        android:layout_width="150dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="top"
+        android:clickable="true"
+        android:focusable="true"
+        android:textColor="@drawable/view_btn_color_state"
+        android:background="@drawable/table_content_cell_bg"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/lt_start"
+        android:layout_width="180dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="top"
+        android:background="@drawable/table_content_cell_bg"
+        android:textSize="16sp" />
+    <TextView
+        android:id="@+id/lt_end"
+        android:layout_width="118dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="top"
+        android:background="@drawable/table_content_cell_bg"
+
+        android:textSize="16sp" />
+</LinearLayout>

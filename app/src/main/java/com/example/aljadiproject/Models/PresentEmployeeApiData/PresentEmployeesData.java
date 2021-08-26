@@ -5,10 +5,19 @@ import android.content.Context;
 public class PresentEmployeesData {
     Context context;
     Integer id;
+    Integer user_id;
     String company_name;
     String start_time;
     String end_time;
     String employee_name;
+
+    public Integer getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
+    }
 
     public String getStart_time() {
         return start_time;

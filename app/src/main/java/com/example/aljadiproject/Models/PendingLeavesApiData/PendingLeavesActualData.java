@@ -4,14 +4,37 @@ import android.content.Context;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class PendingLeavesActualData {
 
     Context context;
-    Integer id;
+    int id;
+    Integer user_id;
     String leave_type;
     String reason_for_leave;
     String leave_duration_type;
     String start_date;
+    String reason_for_rejection;
+
+    public String getReason_for_rejection() {
+        return reason_for_rejection;
+    }
+
+    public void setReason_for_rejection(String reason_for_rejection) {
+        this.reason_for_rejection = reason_for_rejection;
+    }
+
+    @SerializedName("user")
+    PendingUser pendingUser;
+
+    public PendingUser getPendingUser() {
+        return pendingUser;
+    }
+
+    public void setPendingUser(PendingUser pendingUser) {
+        this.pendingUser = pendingUser;
+    }
 
 //    public Context getContext() {
 //        return context;
@@ -21,7 +44,22 @@ public class PendingLeavesActualData {
 //        this.context = context;
 //    }
 
-    public Integer getId() {
+    public Integer getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+//    public Context getContext() {
+//        return context;
+//    }
+//
+//    public void setContext(Context context) {
+//        this.context = context;
+//    }
+
+    public int getId() {
         return id;
     }
 

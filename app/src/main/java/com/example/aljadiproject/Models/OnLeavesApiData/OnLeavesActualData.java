@@ -1,5 +1,7 @@
 package com.example.aljadiproject.Models.OnLeavesApiData;
 
+import com.google.gson.annotations.SerializedName;
+
 public class OnLeavesActualData {
 
     Integer id;
@@ -7,6 +9,16 @@ public class OnLeavesActualData {
     String reason_for_leave;
     String leave_duration_type;
     String start_date;
+    @SerializedName("user")
+    OnLeavesUser onLeavesUser;
+
+    public OnLeavesUser getOnLeavesUser() {
+        return onLeavesUser;
+    }
+
+    public void setOnLeavesUser(OnLeavesUser onLeavesUser) {
+        this.onLeavesUser = onLeavesUser;
+    }
 
     public Integer getId() {
         return id;
