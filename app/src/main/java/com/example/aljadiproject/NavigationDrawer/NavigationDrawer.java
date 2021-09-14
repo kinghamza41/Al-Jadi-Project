@@ -33,9 +33,9 @@ public class NavigationDrawer extends AppCompatActivity {
         setSupportActionBar(toolbar);
         navigationView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawer);
-        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
+//        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
+//        drawerLayout.addDrawerListener(toggle);
+//        toggle.syncState();
     }
 //    @Override
 //    public void onBackPressed() {

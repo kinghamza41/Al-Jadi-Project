@@ -3,8 +3,10 @@ package com.example.aljadiproject;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -29,12 +31,13 @@ public class PresentActivity extends AppCompatActivity {
     NestedScrollView nestedScrollView;
     ArrayList<PresentEmployeesData> arrayList = new ArrayList<>();
     private Integer page = 1;
-    private static Integer pageSize = 20;
+    private static final Integer pageSize = 20;
     String ACCESS_TOKEN;
     TextView total;
     ProgressBar progressBar;
     private boolean isLastPage = false;
     AppCompatButton prevBtn, nextBtn;
+    private SwipeRefreshLayout swipeContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +47,22 @@ public class PresentActivity extends AppCompatActivity {
         prevBtn = findViewById(R.id.prev_btn);
         nextBtn = findViewById(R.id.next_btn);
         total = findViewById(R.id.total);
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
         progressBar = findViewById(R.id.pbHeaderProgress);
         progressBar.setVisibility(View.VISIBLE);
         // test = findViewById(R.id.test);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
         presentRecView.setLayoutManager(layoutManager);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getPresentEmployees();
+            }
+        });
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
         getPresentEmployees();
 
 
@@ -69,7 +83,9 @@ public class PresentActivity extends AppCompatActivity {
                     PresentAdapter adapter = new PresentAdapter(arrayList, getApplicationContext());
                     presentRecView.setAdapter(adapter);
                     progressBar.setVisibility(View.GONE);
-                    recyclerViewAdapter();}
+                    recyclerViewAdapter();
+                    swipeContainer.setRefreshing(false);
+                }
 
                 //  Log.d("RESPONSE_DATA", response.body().getData().getPresent_employees().getPresentEmployeesData().get(0).getCompany_name());
 

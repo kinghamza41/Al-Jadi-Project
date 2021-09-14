@@ -25,4 +25,5 @@
     <string name="_12_00pm">12:00PM</string>
     <string name="total">total</string>
     <string name="view_btn">View</string>
+    <string name="todo">TODO</string>
 </resources>

@@ -8,16 +8,21 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -30,6 +35,9 @@ import com.example.aljadiproject.Models.LoginApiData.LoginRequest;
 import com.example.aljadiproject.SessionManager.UserSession;
 import com.google.android.material.navigation.NavigationView;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -37,7 +45,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Dashboard extends AppCompatActivity {
-    private final String sharedprofileName = "haccount";
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     DrawerLayout drawerLayout;
@@ -46,6 +53,7 @@ public class Dashboard extends AppCompatActivity {
     Button btn;
     ProgressBar presentPB, absentPB, pendingPB, onLeavesPB;
     CardView cardPresent;
+    SwipeRefreshLayout swipeContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +61,13 @@ public class Dashboard extends AppCompatActivity {
         setContentView(R.layout.drawerlayout);
         setSupportActionBar(toolbar);
         idsInitialization();
+        drawerLayout = findViewById(R.id.drawer);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipe_dashboard);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
@@ -71,6 +82,18 @@ public class Dashboard extends AppCompatActivity {
                 return true;
             }
         });
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getDashboardResponse();
+            }
+
+        });
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
         getDashboardResponse();
     }
 
@@ -89,8 +112,9 @@ public class Dashboard extends AppCompatActivity {
         onLeavesPB = findViewById(R.id.onLeavesPB);
         onLeavesPB.setVisibility(View.VISIBLE);
         navigationView = findViewById(R.id.nav_view);
-        drawerLayout = findViewById(R.id.drawer);
+
         cardPresent = findViewById(R.id.cardPresent);
+
     }
 
     private void getDashboardResponse() {
@@ -103,6 +127,7 @@ public class Dashboard extends AppCompatActivity {
                     GetDashboardResponse getDashboardResponse = new GetDashboardResponse();
                     getDashboardResponse = response.body();
 
+                    assert getDashboardResponse != null;
                     tvPresent.setText(getDashboardResponse.getDashboardActualData().getPresent());
                     presentPB.setVisibility(View.GONE);
                     tvAbsent.setText(getDashboardResponse.getDashboardActualData().getAbsent());
@@ -111,11 +136,12 @@ public class Dashboard extends AppCompatActivity {
                     pendingPB.setVisibility(View.GONE);
                     tvTodayLeaves.setText(getDashboardResponse.getDashboardActualData().getEmployees_on_Leave());
                     onLeavesPB.setVisibility(View.GONE);
+                    swipeContainer.setRefreshing(false);
                 }
             }
 
             @Override
-            public void onFailure(Call<GetDashboardResponse> call, Throwable t) {
+            public void onFailure(@NotNull Call<GetDashboardResponse> call, @NotNull Throwable t) {
                 Toast.makeText(Dashboard.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -128,7 +154,8 @@ public class Dashboard extends AppCompatActivity {
 
         if (ACCESS_TOKEN != null) {
             LoginRequest loginRequest = new LoginRequest();
-            SharedPreferences preferences = getSharedPreferences(sharedprofileName, Context.MODE_PRIVATE);
+            String sharedProfileName = "haccount";
+            SharedPreferences preferences = getSharedPreferences(sharedProfileName, Context.MODE_PRIVATE);
             preferences.edit().remove("access_token").apply();
             preferences.edit().remove(loginRequest.getEmail()).apply();
             startActivity(new Intent(getApplicationContext(), MainActivity.class));

@@ -1,18 +1,23 @@
 package com.example.aljadiproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +38,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PendingActivity extends AppCompatActivity {
+    private SwipeRefreshLayout swipeContainer;
     RecyclerView presentRecView;
     NestedScrollView nestedScrollView;
     ArrayList<PendingLeavesActualData> arrayList;
@@ -45,98 +51,140 @@ public class PendingActivity extends AppCompatActivity {
     AppCompatButton prevBtn, nextBtn;
     TextView total;
     Context context;
+    private boolean isScrolling;
+    PendingAdapter adapter;
+    Handler handler = new Handler();
+    int apiDelayed = 5 * 1000; //1 second=1000 milisecond, 5*1000=5seconds
+    Runnable runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pending);
         presentRecView = findViewById(R.id.presentrecview);
-        prevBtn = findViewById(R.id.prev_btn);
-        nextBtn = findViewById(R.id.next_btn);
-        total = findViewById(R.id.total);
+//        prevBtn = findViewById(R.id.prev_btn);
+//        nextBtn = findViewById(R.id.next_btn);
+//        total = findViewById(R.id.total);
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
         progressBar = findViewById(R.id.pbHeaderProgress);
         progressBar.setVisibility(View.VISIBLE);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
 //        presentRecView.setHasFixedSize(true);
         presentRecView.setLayoutManager(layoutManager);
+        presentRecView.setHasFixedSize(true);
+
+//        adapter.notifyDataSetChanged();
 
 //        dialog = new ProgressDialog(this);
 //        dialog.setMessage("Loading...");
 //        dialog.setCancelable(false);
 //        dialog.show();
 //        dialog.dismiss();
-
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getPendingLeaves();
+            }
+        });
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
         getPendingLeaves();
         //  sendLeaveID();
 //        setUpPagination(true);
 //        if (!isLastPage) {
-////
+///
 //
 //            page++;
 //            getAbsentEmployees();
 //        }
-//        presentRecView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//            }
-//
-//            @Override
-//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                int visibleItem = layoutManager.getChildCount();
-//                int totalItem = layoutManager.getItemCount();
-//                int firstVisibleItemPos = layoutManager.findFirstVisibleItemPosition();
-//
-//                if(!isLastPage)
-//                {
-//                    if((visibleItem + firstVisibleItemPos >= totalItem)
-//                        && firstVisibleItemPos>=0 && totalItem>=pageSize) {
-////                        page++;
-//
-//                        getAbsentEmployees();
-//                    }
-//
+        presentRecView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NotNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+//                if(newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL){
+//                    isScrolling = true;
 //                }
-//            }
-//        });
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int visibleItem = layoutManager.getChildCount();
+                int totalItems = layoutManager.getItemCount();
+                int firstVisibleItemPos = layoutManager.findFirstVisibleItemPosition();
+
+                if (!isLoading && !isLastPage) {
+                    if ((visibleItem + firstVisibleItemPos >= totalItems)
+                            && firstVisibleItemPos >= 0 && totalItems >= pageSize) {
+//                        page++;
+////                        getPendingLeaves();
+                    }
+
+                }
+            }
+        });
 
 
     }
 
-    public void sendLeaveID(int leaveId,Context context ) {
-        UpdatePendingResponse updatePendingResponse = new UpdatePendingResponse();
-        Call<UpdatePendingResponse> call = Controller.getInstance().getapi().sendLeavesId(leaveId, updatePendingResponse);
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-        call.enqueue(new Callback<UpdatePendingResponse>() {
+        handler.postDelayed(runnable = new Runnable() {
+            public void run() {
+                //do your function;
+                getPendingLeaves();
+                handler.postDelayed(runnable, apiDelayed);
+            }
+        }, apiDelayed); // so basically after your getPendingLeaves(), from next time it will be 5 sec repeated
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        handler.removeCallbacks(runnable); //stop handler when activity not visible
+    }
+
+    // Accept Api Call
+    public void sendLeaveID(int leaveId, Context context) {
+//        UpdatePendingResponse updatePendingResponse = new UpdatePendingResponse();
+//        ArrayList<PendingLeavesActualData> arrayList= new ArrayList<>();
+        Call<GetPendingLeavesResponse> call = Controller.getInstance().getapi().sendLeavesId(leaveId);
+
+        call.enqueue(new Callback<GetPendingLeavesResponse>() {
             @Override
-            public void onResponse(@NotNull Call<UpdatePendingResponse> call, @NotNull Response<UpdatePendingResponse> response) {
+            public void onResponse(@NotNull Call<GetPendingLeavesResponse> call, @NotNull Response<GetPendingLeavesResponse> response) {
                 //  String msg =  updatePendingResponse.getMessage();
+                assert response.body() != null;
                 if (response.isSuccessful()) {
-                    assert response.body() != null;
-                    Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-
+                    //  arrayList = response.body().getData().getLeaves().getPendingLeavesData();
+                    Toast.makeText(context, "Leave Approved Successfully", Toast.LENGTH_SHORT).show();
+                //    adapter.notifyDataSetChanged();
+//                    PendingAdapter adapter = new PendingAdapter(arrayList, getApplicationContext());
+//                    presentRecView.setAdapter(adapter);
+//                    adapter.notifyDataSetChanged();
 //                   if(leaveId>0){
 //                       Toast.makeText(PendingActivity.this, "chnges", Toast.LENGTH_SHORT).show();
 //                   }
                     Log.d("Success", response.message());
-
                 }
             }
 
             @Override
-            public void onFailure(@NotNull Call<UpdatePendingResponse> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<GetPendingLeavesResponse> call, @NotNull Throwable t) {
                 // dialog.dismiss();
                 Log.d("RESPONSE_ERROR", t.getLocalizedMessage());
             }
         });
     }
 
+    // Reject Api Call
     public void sendLeaveIDForRejection(int leaveId, String leave, Context context) {
         UpdatePendingResponse updatePendingResponse = new UpdatePendingResponse();
-
-
-        Call<UpdatePendingResponse> call = Controller.getInstance().getapi().sendLeavesIdForRejection(leaveId,  leave);
+        Call<UpdatePendingResponse> call = Controller.getInstance().getapi().sendLeavesIdForRejection(leaveId, leave);
 
         call.enqueue(new Callback<UpdatePendingResponse>() {
             @Override
@@ -144,7 +192,9 @@ public class PendingActivity extends AppCompatActivity {
                 //  String msg =  updatePendingResponse.getMessage();
                 if (response.isSuccessful()) {
                     assert response.body() != null;
+
                     Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                //    adapter.notifyDataSetChanged();
 //                   if(leaveId>0){
 //                       Toast.makeText(PendingActivity.this, "chnges", Toast.LENGTH_SHORT).show();
 //                   }
@@ -156,11 +206,14 @@ public class PendingActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NotNull Call<UpdatePendingResponse> call, @NotNull Throwable t) {
                 // dialog.dismiss();
-                Log.d("RESPONSE_ERROR", t.getLocalizedMessage());
+                if (t != null) {
+                    Log.d("RESPONSE_ERROR", t.getLocalizedMessage());
+                }
             }
         });
     }
 
+    //Get Pending Leaves Api Response
     public void getPendingLeaves() {
         isLoading = true;
         Call<GetPendingLeavesResponse> call = Controller.getInstance().getapi().getPendingLeaves(page);
@@ -175,11 +228,15 @@ public class PendingActivity extends AppCompatActivity {
 
                     assert response.body() != null;
                     arrayList = response.body().getData().getLeaves().getPendingLeavesData();
-                    String totalRecord = response.body().getData().getLeaves().getTotal().toString();
-                    total.setText(totalRecord);
+                    //String totalRecord = response.body().getData().getLeaves().getTotal().toString();
+                    //  total.setText(totalRecord);
+                    adapter = new PendingAdapter(arrayList, getApplicationContext());
+                    presentRecView.setAdapter(adapter);
+                    //adapter.notifyDataSetChanged();
                     //GetPendingLeavesResponse getPendingLeavesResponse = response.body().getData().getLeaves().getCurrent_page();
-                    acceptOnClick(arrayList);
+                    //acceptOnClick(arrayList);
                     progressBar.setVisibility(View.GONE);
+                    swipeContainer.setRefreshing(false);
 //                   String total1 =  response.body().getData().getLeaves().getTotal().toString();
 //                    total.setText( total1 );
                 }   //else if (arrayList.size()<=0){
@@ -188,30 +245,31 @@ public class PendingActivity extends AppCompatActivity {
 
                 isLoading = false;
 
-//                dialog.dismiss();
-                if (pageSize >= 1) {
+                //dialog.dismiss();
+//                arrayList.size();
+                if (arrayList.size() > 0) {
                     isLastPage = arrayList.size() < pageSize;
                 } else {
                     isLastPage = true;
                 }
-                nextBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (!isLastPage) {
-                            page++;
-                            getPendingLeaves();
-                        }
-                    }
-                });
-                prevBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (isLastPage) {
-                            page--;
-                            getPendingLeaves();
-                        }
-                    }
-                });
+//                nextBtn.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        if (!isLastPage) {
+//                            page++;
+//                            getPendingLeaves();
+//                        }
+//                    }
+//                });
+//                prevBtn.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        if (isLastPage) {
+//                            page--;
+//                            getPendingLeaves();
+//                        }
+//                    }
+//                });
                 //    Log.d("RESPONSE_DATA", response.body().getData().getPresent_employees().getPresentEmployeesData().get(0).getCompany_name());
             }
 
@@ -224,10 +282,7 @@ public class PendingActivity extends AppCompatActivity {
     }
 
     public void acceptOnClick(ArrayList<PendingLeavesActualData> arrayList) {
-        PendingAdapter adapter = new PendingAdapter(arrayList, getApplicationContext());
-        presentRecView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-        presentRecView.setHasFixedSize(true);
+
 //        new AlertDialog.Builder(null)
 //                .setTitle("Delete entry")
 //                .setMessage("Are you sure you want to delete this entry?")

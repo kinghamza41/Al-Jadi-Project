@@ -19,73 +19,81 @@
         android:textSize="25sp"
         android:textStyle="bold" />
 
-
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/presentrecview"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="20dp"/>
-
-
-
-    </HorizontalScrollView>
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/white_circle">
+
         <ProgressBar
             android:id="@+id/pbHeaderProgress"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:indeterminate="true"
-            android:indeterminateDrawable="@drawable/white_circle">
-        </ProgressBar>
+            android:indeterminateDrawable="@drawable/white_circle" />
 
     </LinearLayout>
-    <LinearLayout
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="10dp">
-        <TextView
-            android:id="@+id/total"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nest"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="@string/total"
-            android:layout_gravity="start" />
-        <TextView
-            android:id="@+id/records"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="@string/total"
-            android:layout_gravity="start"
-            android:layout_marginLeft="50dp"/>
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/prev_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/ic_prev"
-            android:layout_gravity="center"
-            android:layout_marginLeft="150dp"
-            android:layout_marginStart="150dp" />
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/next_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/ic_next"
-            android:textColor= "@color/black"
-            />
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:verticalScrollbarPosition="defaultPosition">
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/presentrecview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp" />
+
+            </HorizontalScrollView>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:orientation="horizontal"-->
+    <!--        android:layout_margin="10dp">-->
+    <!--        <TextView-->
+    <!--            android:id="@+id/total"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:textSize="20sp"-->
+    <!--            android:text="@string/total"-->
+    <!--            android:layout_gravity="start" />-->
+    <!--        <TextView-->
+    <!--            android:id="@+id/records"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:textSize="20sp"-->
+    <!--            android:text="@string/total"-->
+    <!--            android:layout_gravity="start"-->
+    <!--            android:layout_marginLeft="50dp"/>-->
+    <!--        <androidx.appcompat.widget.AppCompatButton-->
+    <!--            android:id="@+id/prev_btn"-->
+    <!--            android:layout_width="40dp"-->
+    <!--            android:layout_height="40dp"-->
+    <!--            android:background="@drawable/ic_prev"-->
+    <!--            android:layout_gravity="center"-->
+    <!--            android:layout_marginLeft="150dp"-->
+    <!--            android:layout_marginStart="150dp" />-->
+    <!--        <androidx.appcompat.widget.AppCompatButton-->
+    <!--            android:id="@+id/next_btn"-->
+    <!--            android:layout_width="40dp"-->
+    <!--            android:layout_height="40dp"-->
+    <!--            android:background="@drawable/ic_next"-->
+    <!--            android:textColor= "@color/black"-->
+    <!--            />-->
+    <!--    </LinearLayout>-->
 </androidx.appcompat.widget.LinearLayoutCompat>

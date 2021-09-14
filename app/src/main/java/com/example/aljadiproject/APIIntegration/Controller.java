@@ -1,25 +1,11 @@
 package com.example.aljadiproject.APIIntegration;
 
-import android.annotation.SuppressLint;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.X509TrustManager;
-import javax.security.cert.CertificateException;
-import javax.security.cert.X509Certificate;
 
 
 import okhttp3.Interceptor;
@@ -70,8 +56,8 @@ public class Controller {
         return clientObj;
     }
 
-    public apiset getapi() {
-        return retrofit.create(apiset.class);
+    public ApiSet getapi() {
+        return retrofit.create(ApiSet.class);
     }
 
 

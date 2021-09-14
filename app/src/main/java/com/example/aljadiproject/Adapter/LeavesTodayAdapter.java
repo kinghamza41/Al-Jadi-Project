@@ -107,7 +107,7 @@ public class LeavesTodayAdapter extends RecyclerView.Adapter<LeavesTodayAdapter.
         return data.size() + 1;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView id, name, company, startTime, endTime;
 

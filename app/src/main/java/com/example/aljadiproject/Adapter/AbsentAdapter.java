@@ -1,5 +1,7 @@
 package com.example.aljadiproject.Adapter;
 
+import android.annotation.SuppressLint;
+import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -8,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.paging.PagedListAdapter;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.aljadiproject.Models.AbsentEmployeeApiData.AbsentEmployeesData;
@@ -26,6 +30,7 @@ public class AbsentAdapter extends RecyclerView.Adapter<AbsentAdapter.ViewHolder
         this.context = context;
     }
 
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -34,6 +39,7 @@ public class AbsentAdapter extends RecyclerView.Adapter<AbsentAdapter.ViewHolder
         return new ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         //  final AbsentEmployeesModel.EmployeeAttendance temp = data.get(position);
@@ -75,8 +81,8 @@ public class AbsentAdapter extends RecyclerView.Adapter<AbsentAdapter.ViewHolder
             rowViewHolder.company.setText(modal.getDesignation());
             rowViewHolder.startTime.setText(modal.getStart_time());
             rowViewHolder.endTime.setText(modal.getEnd_time());
-        }
 
+        }
 
     }
 
@@ -85,7 +91,7 @@ public class AbsentAdapter extends RecyclerView.Adapter<AbsentAdapter.ViewHolder
         return data.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView id, name, company, startTime, endTime;
 

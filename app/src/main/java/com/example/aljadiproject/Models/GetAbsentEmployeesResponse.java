@@ -4,12 +4,12 @@ import com.example.aljadiproject.Models.AbsentEmployeeApiData.AbsentData;
 import com.example.aljadiproject.Models.PresentEmployeeApiData.SampleResultData;
 import com.google.gson.annotations.SerializedName;
 
-public class GetAbsentEmployeesReponse {
+public class GetAbsentEmployeesResponse {
 
     @SerializedName("data")
     private AbsentData data;
 
-    public GetAbsentEmployeesReponse() {
+    public GetAbsentEmployeesResponse() {
     }
 
     public AbsentData getData() {

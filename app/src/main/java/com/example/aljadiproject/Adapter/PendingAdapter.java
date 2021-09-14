@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
 import android.text.Html;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -86,7 +87,6 @@ public class PendingAdapter extends RecyclerView.Adapter<PendingAdapter.ViewHold
             rowViewHolder.reject.setTextColor(Color.BLACK);
             rowViewHolder.slash.setText("/");
             rowViewHolder.slash.setTextColor(Color.BLACK);
-
         } else {
             PendingLeavesActualData modal = data.get(rowPos - 1);
 //           PendingLeavesActualData.user modal2 = data2.get(rowPos - 1);
@@ -192,7 +192,6 @@ public class PendingAdapter extends RecyclerView.Adapter<PendingAdapter.ViewHold
             });
 
         }
-
     }
 
     @Override
@@ -217,7 +216,6 @@ public class PendingAdapter extends RecyclerView.Adapter<PendingAdapter.ViewHold
             endTime = itemView.findViewById(R.id.end);
             linearLayout = itemView.findViewById(R.id.layout_accept_reject);
             slash = itemView.findViewById(R.id.slash);
-
         }
     }
 
