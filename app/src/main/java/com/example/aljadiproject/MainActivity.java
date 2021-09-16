@@ -7,6 +7,7 @@ import androidx.core.app.NotificationCompat;
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String NOTIFICATION_CHANNEL_ID = "100002";
     UserSession userSession;
     String ACCESS_TOKEN;
+    ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,7 +165,10 @@ public class MainActivity extends AppCompatActivity {
             t2.requestFocus();
 
         } else {
-
+            dialog = new ProgressDialog(this);
+            dialog.setMessage("Please wait...");
+            dialog.setCancelable(false);
+            dialog.show();
             LoginRequest loginRequest = new LoginRequest();
             loginRequest.setEmail(t1.getText().toString());
             loginRequest.setPassword(t2.getText().toString());
@@ -172,10 +177,11 @@ public class MainActivity extends AppCompatActivity {
             call.enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(@NotNull Call<LoginResponse> call, @NotNull Response<LoginResponse> response) {
+                    assert response.body() != null;
                     if (response.body().getStatusCode() == 200) {
                         LoginResponse loginResponse = response.body();
                         Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-
+                        dialog.dismiss();
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {

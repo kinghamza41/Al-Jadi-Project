@@ -162,7 +162,8 @@ public class PendingActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     //  arrayList = response.body().getData().getLeaves().getPendingLeavesData();
                     Toast.makeText(context, "Leave Approved Successfully", Toast.LENGTH_SHORT).show();
-                //    adapter.notifyDataSetChanged();
+                   //  adapter.notifyDataSetChanged();
+                    getPendingLeaves();
 //                    PendingAdapter adapter = new PendingAdapter(arrayList, getApplicationContext());
 //                    presentRecView.setAdapter(adapter);
 //                    adapter.notifyDataSetChanged();
